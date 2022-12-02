@@ -24,3 +24,10 @@ To create a login app using React and React Router
 - Sign-in (when not logged in)
 - Sign up
 - Dashboard (when logged in)
+
+#### Data
+
+- First Name
+- Last Name
+- Username
+- Password
