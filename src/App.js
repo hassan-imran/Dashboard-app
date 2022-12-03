@@ -1,14 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import ErrorPage from "./routes/404.js";
 import SignUp from './routes/SignUp';
 import Dashboard from './routes/Dashboard';
-import { Routes, Route, } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Login from "./routes/Login.js";
 
 function App() {
+
+    const [userList, setUser] = useState([
+        {
+            userName: 'admin',
+            pass: 'admin123',
+            firstName: 'Robot',
+            lastName: 'Admin',
+        },
+        {
+            userName: 'faheem',
+            pass: 'faheem123',
+            firstName: 'Muhammad',
+            lastName: 'Faheem',
+        }
+    ]);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [loginDetails, setLoginDetails] = useState([]);
+    const [isLoggedIn, setLoginState] = useState(false); //use it to conditionally render the all the pages.
+    const [errorMsg, setErrorMsg] = useState(null);
+    const navigate = useNavigate();
+
+    const logUserIn = (userName, pass) => {
+        let counter = 0;
+
+        userList.forEach((x) => {
+            if (x.userName.toLowerCase() == userName.toLowerCase()) {
+                if (x.pass === pass) {
+                    setLoginDetails({
+                        userName,
+                        firstName: userList[counter].firstName,
+                        lastName: userList[counter].lastName,
+                    });
+                    console.log("login successful"); //Check
+                    setLoginState(true);
+                    navigate("/dashboard");
+                    return;
+                }
+                setErrorMsg('Password is incorrect.');
+                return;
+            }
+            counter++;
+        })
+
+        if (counter === userList.length) {
+            setErrorMsg('Username not found.');
+        }
+    }
+
+    const addUser = (userList, userName, pass, firstName, lastName) => {
+        let checkUnique = true;
+
+        //a loop to check if the entered email is a duplicate
+
+        userList.forEach((x) => {
+            if (x.userName.toLowerCase() == userName.toLowerCase()) {
+                // setShow(true);
+                // add a flag to not allow duplicate usernames
+                checkUnique = false;
+                return;
+            }
+        })
+
+        // if checkUnique is true, publish changes to the state i.e. add the user
+
+        if (checkUnique) {
+            const newUserList = [...userList, { userName, pass, firstName, lastName }];
+            setUser(newUserList)
+        }
+        console.log(checkUnique);
+    }
+
+
     return (
         <>
             <Navbar bg="dark" variant="dark">
@@ -23,18 +96,25 @@ function App() {
 
             <br />
 
-            {/* <nav>
-                <ul>
-                    <li><Link to="/">Login</Link></li>
-                    <li><Link to="/signup">Sign up</Link></li>
-                </ul>
-            </nav> */}
-
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={
+                    <Login
+                        // userName={userName}
+                        // setUserName={setUserName}
+                        // pass={pass}
+                        // setPassword={setPassword}
+                        errorMsg={errorMsg}
+                        setErrorMsg={setErrorMsg}
+                        logUserIn={logUserIn}
+                    />
+                } />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={
+                    <Dashboard
+                        loginDetails={loginDetails}
+                    />
+                } />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
 

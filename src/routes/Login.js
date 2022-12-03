@@ -1,8 +1,28 @@
 import { Card, Container, FloatingLabel, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import React, { useState } from 'react';
+import ErrorFlag from '.././ErrorFlag';
 
-function Login() {
+function Login({ errorMsg, setErrorMsg, logUserIn }) {
+
+    const [userName, setUserName] = useState('');
+    const [pass, setPassword] = useState('');
+
+    const handleSubmit = (e) => {
+        //Prevent the browser from implementing the default behavior of the event
+        e.preventDefault();
+
+        //Do not submit if either of the input fields are empty
+        if (!userName || !pass) { return };
+
+        logUserIn(userName, pass);
+
+        //Reset the input fields
+        setUserName('');
+        setPassword('');
+    }
+
     return (
         <>
 
@@ -19,19 +39,18 @@ function Login() {
                     <Row xs={2}>
                         <Card className='p-4 shadow bg-body rounded'>
                             <Form className='d-grid'>
-                                {/* <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
-                            </Form.Group> */}
 
-                                <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
-                                    <Form.Control type="text" placeholder="my_username" />
+                                <FloatingLabel controlId="floatingInput" label="Username" className="mb-3">
+                                    <Form.Control type="text" placeholder="my_username" value={userName} onChange={e => setUserName(e.target.value)} />
                                 </FloatingLabel>
 
                                 <FloatingLabel controlId="floatingPassword" label="Password" className="mb-3"  >
-                                    <Form.Control type="password" placeholder="Password" />
+                                    <Form.Control type="password" placeholder="Password" value={pass} onChange={e => setPassword(e.target.value)} />
                                 </FloatingLabel>
-                                <Button variant="primary" type="submit">
+
+                                <ErrorFlag errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+
+                                <Button variant="primary" onClick={handleSubmit}>
                                     Log in
                                 </Button>
 
@@ -40,8 +59,8 @@ function Login() {
                                 <p className='text-center'>Not a User Portal member yet?</p>
 
                                 <Button variant="secondary" href="/signup">
-                                    {/* Have to add a on click handler to this button */}
-                                    Sign up
+                                {/* Have to add a on click handler to this button */}
+                                Sign up
                                 </Button>
                             </Form>
                         </Card>
