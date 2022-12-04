@@ -3,9 +3,9 @@
 ## Group Members
 
 - [Ahmar Khan](https://github.com/ahmark1)
-- [Muhammad Faheem](github.com/faheemameen) 
-- [Hassan Imran](github.com/hassan-imran) 
-- [Om Lohano](github.com/omlohano2176)
+- [Muhammad Faheem](https://github.com/faheemameen) 
+- [Hassan Imran](https://github.com/hassan-imran) 
+- [Om Lohano](https://github.com/omlohano2176)
 
 ## Objective
 
