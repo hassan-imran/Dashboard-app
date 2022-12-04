@@ -75,7 +75,7 @@ function SignUp({ addUser, errorMsg, setErrorMsg }) {
 
                                 <p className='text-center'>Already an existing User Portal member?</p>
 
-                                <Button variant="secondary" type='submit'>
+                                <Button variant="secondary" href="/login">
                                     Log in to your account
                                 </Button>
 
