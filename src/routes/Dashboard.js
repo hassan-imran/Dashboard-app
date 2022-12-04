@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Row } from 'react-bootstrap';
-import { redirect } from "react-router-dom";
 
 function Dashboard({ loginDetails }) {
 

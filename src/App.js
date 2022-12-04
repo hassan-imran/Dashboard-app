@@ -64,7 +64,7 @@ function App() {
         //a loop to check if the entered email is a duplicate
 
         userList.forEach((x) => {
-            if (x.userName.toLowerCase() == userName.toLowerCase()) {
+            if (x.userName.toLowerCase() === userName.toLowerCase()) {
                 // setShow(true);
                 // add a flag to not allow duplicate usernames
                 checkUnique = false;
