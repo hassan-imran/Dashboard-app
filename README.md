@@ -2,7 +2,7 @@
 
 ## Group Members
 
-- [Ahmar Khan](github.com/ahmark1)
+- [Ahmar Khan](https://github.com/ahmark1)
 - [Muhammad Faheem](github.com/faheemameen) 
 - [Hassan Imran](github.com/hassan-imran) 
 - [Om Lohano](github.com/omlohano2176)
