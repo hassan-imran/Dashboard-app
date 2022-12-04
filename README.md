@@ -2,10 +2,10 @@
 
 ## Group Members
 
-- Ahmar Khan
-- Muhammad Faheem 
-- Hassan Imran
-- Om Lohano
+- [Ahmar Khan](github.com/ahmark1)
+- [Muhammad Faheem](github.com/faheemameen) 
+- [Hassan Imran](github.com/hassan-imran) 
+- [Om Lohano](github.com/omlohano2176)
 
 ## Objective
 
@@ -31,3 +31,5 @@ To create a login app using React and React Router
 - Last Name
 - Username
 - Password
+
+
