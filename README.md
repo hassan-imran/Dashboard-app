@@ -5,7 +5,7 @@
 - Ahmar Khan
 - Muhammad Faheem 
 - Hassan Imran
-- Om Lohani
+- Om Lohano
 
 ## Objective
 
