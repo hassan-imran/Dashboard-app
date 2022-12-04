@@ -15,7 +15,10 @@ function Login({ errorMsg, setErrorMsg, logUserIn}) {
         e.preventDefault();
 
         //Do not submit if either of the input fields are empty
-        if (!userName || !pass) { return };
+        if (!userName || !pass) {
+            setErrorMsg("One (or more) of the required fields (marked by *) are empty");
+            return;
+        };
 
         logUserIn(userName, pass);
 
@@ -41,11 +44,11 @@ function Login({ errorMsg, setErrorMsg, logUserIn}) {
                         <Card className='p-4 shadow bg-body rounded'>
                             <Form className='d-grid'>
 
-                                <FloatingLabel controlId="floatingInput" label="Username" className="mb-3">
+                                <FloatingLabel controlId="floatingInput" label="Username *" className="mb-3">
                                     <Form.Control type="text" placeholder="my_username" value={userName} onChange={e => setUserName(e.target.value)} />
                                 </FloatingLabel>
 
-                                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-3"  >
+                                <FloatingLabel controlId="floatingPassword" label="Password *" className="mb-3"  >
                                     <Form.Control type="password" placeholder="Password" value={pass} onChange={e => setPassword(e.target.value)} />
                                 </FloatingLabel>
 

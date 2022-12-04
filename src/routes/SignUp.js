@@ -16,7 +16,9 @@ function SignUp({ addUser, errorMsg, setErrorMsg }) {
         e.preventDefault();
 
         //Do not submit if either of the input fields are empty
-        if (!userName || !pass || !firstName || !lastName) { return };
+        if (!userName || !pass || !firstName || !lastName) { 
+            setErrorMsg("One (or more) of the required fields (marked by *) are empty");
+            return; };
 
         addUser(userName, pass, firstName, lastName);
 
@@ -44,22 +46,22 @@ function SignUp({ addUser, errorMsg, setErrorMsg }) {
                             <Form className='d-grid'>
 
                                 <InputGroup className="mb-3">
-                                    <InputGroup.Text id="inputGroup-sizing-default">First Name</InputGroup.Text>
+                                    <InputGroup.Text id="inputGroup-sizing-default">First Name *</InputGroup.Text>
                                     <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={e => setFirstName(e.target.value)} />
                                 </InputGroup>
 
                                 <InputGroup className="mb-3">
-                                    <InputGroup.Text id="inputGroup-sizing-default">Last Name</InputGroup.Text>
+                                    <InputGroup.Text id="inputGroup-sizing-default">Last Name *</InputGroup.Text>
                                     <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={e => setLastName(e.target.value)} />
                                 </InputGroup>
 
                                 <InputGroup className="mb-3">
-                                    <InputGroup.Text id="inputGroup-sizing-default">UserName</InputGroup.Text>
+                                    <InputGroup.Text id="inputGroup-sizing-default">UserName *</InputGroup.Text>
                                     <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={e => setUserName(e.target.value)} />
                                 </InputGroup>
 
                                 <InputGroup className="mb-3">
-                                    <InputGroup.Text id="inputGroup-sizing-default">Password</InputGroup.Text>
+                                    <InputGroup.Text id="inputGroup-sizing-default">Password *</InputGroup.Text>
                                     <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" type='password' onChange={e => setPassword(e.target.value)} />
                                 </InputGroup>
 
