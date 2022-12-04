@@ -6,6 +6,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Login from "./routes/Login.js";
 
 function App() {
@@ -26,10 +27,13 @@ function App() {
     ]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [loginDetails, setLoginDetails] = useState([]);
-    const [isLoggedIn, setLoginState] = useState(false); //use it to conditionally render the all the pages.
+    const [loginDetails, setLoginDetails] = useState([]); //use it to conditionally render the all the pages.
     const [errorMsg, setErrorMsg] = useState(null);
+    const [authenticated, setAuthenticated] = useState(false);
+
     const navigate = useNavigate();
+
+    // console.log(loginDetails.length); //Use logindetails instead of isLogged in flag
 
     const logUserIn = (userName, pass) => {
         let counter = 0;
@@ -42,8 +46,7 @@ function App() {
                         firstName: userList[counter].firstName,
                         lastName: userList[counter].lastName,
                     });
-                    console.log("login successful"); //Check
-                    setLoginState(true);
+                    setAuthenticated(true);
                     navigate("/dashboard");
                     return;
                 }
@@ -81,16 +84,72 @@ function App() {
         console.log(checkUnique);
     }
 
+    const logout = () => {
+        setLoginDetails([]);
+        setAuthenticated(false);
+        navigate("\login");
+    }
+
+    if (!authenticated) {
+        return (
+            <>
+                <Navbar bg="dark" variant="dark">
+                    <Container>
+                        <Navbar.Brand href="/">User Portal</Navbar.Brand>
+                        <Nav className="me-auto">
+                            <Nav.Link href="/login">Login</Nav.Link>
+                            <Nav.Link href="/signup">Sign up</Nav.Link>
+                        </Nav>
+                    </Container>
+                </Navbar>
+
+                <br />
+
+                <Routes>
+                    <Route path="/" element={
+                        <Login
+                            errorMsg={errorMsg}
+                            setErrorMsg={setErrorMsg}
+                            logUserIn={logUserIn}
+                            authenticated={authenticated}
+                            navigate={navigate}
+                        />
+                    } />
+                    <Route path="/login" element={
+                        <Login
+                            errorMsg={errorMsg}
+                            setErrorMsg={setErrorMsg}
+                            logUserIn={logUserIn}
+                            authenticated={authenticated}
+                            navigate={navigate}
+                        />
+                    } />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/dashboard" element={
+                        <Dashboard
+                            loginDetails={loginDetails}
+                        />
+                    } />
+                    <Route path="*" element={<ErrorPage />} />
+                </Routes>
+
+            </>
+        )
+    }
 
     return (
         <>
-            <Navbar bg="dark" variant="dark">
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
                     <Navbar.Brand href="/">User Portal</Navbar.Brand>
-                    <Nav className="me-auto">
-                        <Nav.Link href="/login">Login</Nav.Link>
-                        <Nav.Link href="/signup">Sign up</Nav.Link>
-                    </Nav>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+                        <Nav>
+                            <NavDropdown title={`Signed in as: ${loginDetails.firstName} ${loginDetails.lastName}`} id="collasible-nav-dropdown">
+                                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
 
@@ -99,17 +158,22 @@ function App() {
             <Routes>
                 <Route path="/" element={
                     <Login
-                        // userName={userName}
-                        // setUserName={setUserName}
-                        // pass={pass}
-                        // setPassword={setPassword}
                         errorMsg={errorMsg}
                         setErrorMsg={setErrorMsg}
                         logUserIn={logUserIn}
+                        authenticated={authenticated}
+                        navigate={navigate}
                     />
                 } />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={
+                    <Login
+                        errorMsg={errorMsg}
+                        setErrorMsg={setErrorMsg}
+                        logUserIn={logUserIn}
+                        authenticated={authenticated}
+                        navigate={navigate}
+                    />
+                } />
                 <Route path="/dashboard" element={
                     <Dashboard
                         loginDetails={loginDetails}
@@ -120,6 +184,7 @@ function App() {
 
         </>
     )
+
 }
 
 export default App;

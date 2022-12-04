@@ -4,10 +4,11 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react';
 import ErrorFlag from '.././ErrorFlag';
 
-function Login({ errorMsg, setErrorMsg, logUserIn }) {
+function Login({ errorMsg, setErrorMsg, logUserIn, authenticated, navigate }) {
 
     const [userName, setUserName] = useState('');
     const [pass, setPassword] = useState('');
+
 
     const handleSubmit = (e) => {
         //Prevent the browser from implementing the default behavior of the event
@@ -23,9 +24,9 @@ function Login({ errorMsg, setErrorMsg, logUserIn }) {
         setPassword('');
     }
 
+
     return (
         <>
-
             <Container>
                 <Row>
                     <h1 className='display-2 mt-5'>Welcome to User Portal!</h1>
@@ -59,8 +60,8 @@ function Login({ errorMsg, setErrorMsg, logUserIn }) {
                                 <p className='text-center'>Not a User Portal member yet?</p>
 
                                 <Button variant="secondary" href="/signup">
-                                {/* Have to add a on click handler to this button */}
-                                Sign up
+                                    {/* Have to add a on click handler to this button */}
+                                    Sign up
                                 </Button>
                             </Form>
                         </Card>
@@ -71,6 +72,7 @@ function Login({ errorMsg, setErrorMsg, logUserIn }) {
 
         </>
     );
+
 }
 
 export default Login;
