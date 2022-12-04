@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import ErrorPage from "./routes/404.js";
 import SignUp from './routes/SignUp';
 import Dashboard from './routes/Dashboard';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Login from "./routes/Login.js";
+
 
 function App() {
 
@@ -24,22 +25,18 @@ function App() {
             firstName: 'Muhammad',
             lastName: 'Faheem',
         }
-    ]);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [loginDetails, setLoginDetails] = useState([]); //use it to conditionally render the all the pages.
-    const [errorMsg, setErrorMsg] = useState(null);
-    const [authenticated, setAuthenticated] = useState(false);
+    ]);                                                                 // Initial User List
+    const [loginDetails, setLoginDetails] = useState([]);               // Only stores Username, first, last name
+    const [errorMsg, setErrorMsg] = useState(null);                     // To display error flags on login and signup page 
+    const [authenticated, setAuthenticated] = useState(false);          // Boolean flag to check if user is signed in or not
 
-    const navigate = useNavigate();
-
-    // console.log(loginDetails.length); //Use logindetails instead of isLogged in flag
+    const navigate = useNavigate();                                     // To redirect using react-router's hook
 
     const logUserIn = (userName, pass) => {
         let counter = 0;
 
         userList.forEach((x) => {
-            if (x.userName.toLowerCase() == userName.toLowerCase()) {
+            if (x.userName.toLowerCase() === userName.toLowerCase()) {
                 if (x.pass === pass) {
                     setLoginDetails({
                         userName,
@@ -61,7 +58,7 @@ function App() {
         }
     }
 
-    const addUser = (userList, userName, pass, firstName, lastName) => {
+    const addUser = (userName, pass, firstName, lastName) => {
         let checkUnique = true;
 
         //a loop to check if the entered email is a duplicate
@@ -79,15 +76,18 @@ function App() {
 
         if (checkUnique) {
             const newUserList = [...userList, { userName, pass, firstName, lastName }];
-            setUser(newUserList)
+            setUser(newUserList);
+            navigate("/login");
+            return;
         }
-        console.log(checkUnique);
+        setErrorMsg('Username already exists');
+        return;
     }
 
     const logout = () => {
         setLoginDetails([]);
         setAuthenticated(false);
-        navigate("\login");
+        navigate("/login");
     }
 
     if (!authenticated) {
@@ -111,8 +111,6 @@ function App() {
                             errorMsg={errorMsg}
                             setErrorMsg={setErrorMsg}
                             logUserIn={logUserIn}
-                            authenticated={authenticated}
-                            navigate={navigate}
                         />
                     } />
                     <Route path="/login" element={
@@ -120,16 +118,19 @@ function App() {
                             errorMsg={errorMsg}
                             setErrorMsg={setErrorMsg}
                             logUserIn={logUserIn}
-                            authenticated={authenticated}
-                            navigate={navigate}
                         />
                     } />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/dashboard" element={
-                        <Dashboard
-                            loginDetails={loginDetails}
+                    <Route path="/signup" element={
+                        <SignUp
+                            addUser={addUser}
+                            errorMsg={errorMsg}
+                            setErrorMsg={setErrorMsg}
                         />
                     } />
+                    <Route
+                        path="/dashboard"
+                        element={<Navigate to="/login" replace />}
+                    />
                     <Route path="*" element={<ErrorPage />} />
                 </Routes>
 
@@ -145,7 +146,7 @@ function App() {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
                         <Nav>
-                            <NavDropdown title={`Signed in as: ${loginDetails.firstName} ${loginDetails.lastName}`} id="collasible-nav-dropdown">
+                            <NavDropdown title={`Signed in as: ${loginDetails.userName}`} id="collasible-nav-dropdown">
                                 <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
@@ -156,29 +157,23 @@ function App() {
             <br />
 
             <Routes>
-                <Route path="/" element={
-                    <Login
-                        errorMsg={errorMsg}
-                        setErrorMsg={setErrorMsg}
-                        logUserIn={logUserIn}
-                        authenticated={authenticated}
-                        navigate={navigate}
-                    />
-                } />
-                <Route path="/login" element={
-                    <Login
-                        errorMsg={errorMsg}
-                        setErrorMsg={setErrorMsg}
-                        logUserIn={logUserIn}
-                        authenticated={authenticated}
-                        navigate={navigate}
-                    />
-                } />
                 <Route path="/dashboard" element={
                     <Dashboard
                         loginDetails={loginDetails}
                     />
                 } />
+                <Route
+                    path="/"
+                    element={<Navigate to="/dashboard" replace />}
+                />
+                <Route
+                    path="/login"
+                    element={<Navigate to="/dashboard" replace />}
+                />
+                <Route
+                    path="/signup"
+                    element={<Navigate to="/dashboard" replace />}
+                />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
 

@@ -1,8 +1,32 @@
+import React, { useState } from 'react';
 import { Card, Container, InputGroup, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ErrorFlag from '../ErrorFlag';
 
-function SignUp() {
+function SignUp({ addUser, errorMsg, setErrorMsg }) {
+    const [userName, setUserName] = useState('');
+    const [pass, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+
+    const handleSubmit = (e) => {
+        //Prevent the browser from implementing the default behavior of the event
+        e.preventDefault();
+
+        //Do not submit if either of the input fields are empty
+        if (!userName || !pass || !firstName || !lastName) { return };
+
+        addUser(userName, pass, firstName, lastName);
+
+        //Reset the input fields
+        setUserName('');
+        setPassword('');
+        setFirstName('');
+        setLastName('');
+    }
+
     return (
         <>
 
@@ -21,25 +45,27 @@ function SignUp() {
 
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text id="inputGroup-sizing-default">First Name</InputGroup.Text>
-                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={e => setFirstName(e.target.value)} />
                                 </InputGroup>
 
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text id="inputGroup-sizing-default">Last Name</InputGroup.Text>
-                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={e => setLastName(e.target.value)} />
                                 </InputGroup>
 
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text id="inputGroup-sizing-default">UserName</InputGroup.Text>
-                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={e => setUserName(e.target.value)} />
                                 </InputGroup>
 
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text id="inputGroup-sizing-default">Password</InputGroup.Text>
-                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" type='password' />
+                                    <Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default" type='password' onChange={e => setPassword(e.target.value)} />
                                 </InputGroup>
 
-                                <Button variant="primary" href="/signup" type='submit'>
+                                <ErrorFlag errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+
+                                <Button variant="primary" href="/signup" onClick={handleSubmit} >
                                     Let's Go!
                                 </Button>
 
@@ -47,7 +73,7 @@ function SignUp() {
 
                                 <p className='text-center'>Already an existing User Portal member?</p>
 
-                                <Button variant="secondary" href="/login">
+                                <Button variant="secondary" type='submit'>
                                     Log in to your account
                                 </Button>
 

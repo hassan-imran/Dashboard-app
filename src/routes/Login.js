@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react';
 import ErrorFlag from '.././ErrorFlag';
 
-function Login({ errorMsg, setErrorMsg, logUserIn, authenticated, navigate }) {
+function Login({ errorMsg, setErrorMsg, logUserIn}) {
 
     const [userName, setUserName] = useState('');
     const [pass, setPassword] = useState('');
