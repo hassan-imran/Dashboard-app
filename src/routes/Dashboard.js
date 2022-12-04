@@ -7,8 +7,10 @@ function Dashboard({ loginDetails }) {
         <>
             <Container>
                 <Row>
-                    <h1 className='display-2 mt-5'>Welcome {loginDetails.firstName} {loginDetails.lastName}</h1>
-                    {/* <h3 className='display-6 mt-3'></h3> */}
+                    <h1 className='display-2 mt-5'>Welcome {loginDetails.firstName} {loginDetails.lastName}!</h1>
+                    <hr />
+                    <h4 className='display-6 mt-5'>Your Username is "{loginDetails.userName}"*</h4>
+                    <p>*Without the quotes</p>
                 </Row>
             </Container>
         </>
