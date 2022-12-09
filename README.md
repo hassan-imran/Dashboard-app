@@ -6,6 +6,7 @@
 - [Muhammad Faheem](https://github.com/faheemameen) 
 - [Hassan Imran](https://github.com/hassan-imran) 
 - [Om Lohano](https://github.com/omlohano2176)
+- [Daniyal Ahmed](https://github.com/daniyal200)
 
 ## Objective
 
